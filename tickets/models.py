@@ -97,6 +97,7 @@ class Seat(models.Model):
     def __str__(self) -> str:
         return self.seat_id + " -> " + str(self.screen)
 
+
 class Show(models.Model):
     show_name = models.CharField(max_length=60)
     start_time = models.DateTimeField()
@@ -106,16 +107,17 @@ class Show(models.Model):
 
     def __str__(self) -> str:
         return self.show_name + " :  " + str(self.start_time) + " - " + str(self.end_time)
-
+ 
 class ShowScreen(models.Model):
-    screen = models.OneToOneField(Screen, on_delete=models.CASCADE)
-    show = models.OneToOneField(Show, on_delete=models.CASCADE)
+    screen = models.ForeignKey(Screen, on_delete=models.CASCADE)
+    show = models.ForeignKey(Show, on_delete=models.CASCADE)
 
-    # class Meta:
-    #     unique_together = ('screen', 'show')
+    class Meta:
+        unique_together = ('screen', 'show')
 
     def __str__(self) -> str:
-        return self.screen.screen_name
+        return self.screen.screen_name + " - " + str(self.show)
+    
 
 class Ticket(models.Model):
     username = models.CharField(max_length=60)
